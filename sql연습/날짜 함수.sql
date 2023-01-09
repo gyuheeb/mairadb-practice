@@ -22,6 +22,11 @@ select date_format(now(),'%d %b \ %y') from dual;
 select first_name, hire_date,period_diff(date_format(curdate(),'%y%m'),date_format( hire_date,'%y%m')) 
 as month from employees order by month desc;
 
+select min(period_diff(date_format(curdate(),'%y%m'),date_format( hire_date,'%y%m')))
+as month from employees;
+
+
+
 -- date_add (=adddate), date_sub(=subdate)
 -- 날짜를 datetype의 컬럼이나 값에 type(year, month,day)의 표현식으로 더하거나 밴다.
 -- 예) 각 사원들의 근속년 수가 5년이 되는 날에 휴가를 보내준다면 각 사원의 5년 근속 휴가 날짜는?
