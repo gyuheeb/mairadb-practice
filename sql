@@ -34,7 +34,9 @@ insert into pet values('똥방구','gyuhee','dog','N',"2023-03-03",null);
 -- delete : DML(D)
 delete from pet where name='똥빵구';
 -- update: DML(U)
-update pet set name='똥빵구' where name = '똥방구';
+update pet set name='똥빵구'  where name = '똥방구';
+
+update pet set death =null where name !='Brower';
 
 -- select : DML(R)
 select * from pet;
@@ -42,6 +44,26 @@ select * from pet;
 -- load data
 load data local infile 'd:\pet.txt' into table pet;
 
--- select
+-- select 연습
 select name,species from pet where name = 'bowser';
+
+select name,species from pet where birth >= '1998-01-01';
+
+select name,species,gender from pet where species = 'dog' and gender = 'f';
+
+select name,species from pet where species = 'snake' or species = 'bird';
+
+select name,species, birth from pet order by birth desc;
+select name,species, birth from pet order by birth asc;
+
+select name,birth,death from pet where death is not null;
+
+select name from pet where name like 'b%';
+select name from pet where name like '%fy';
+select name from pet where name like '%w%';
+select name from pet where name like '_____';
+
+select count(*) from pet;
+
+
 
