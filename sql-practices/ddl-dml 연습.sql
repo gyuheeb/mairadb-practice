@@ -46,9 +46,19 @@ delete from member
   where no = 2;
 select* from member;
 
+-- transaction
+select @@autocommit;
+set autocommit=0;
 
+insert
+ into member(no, email,name,dept,password)
+ values (null,'gyuhee4529@naver.com','박규희','개발팀',password('1234'));
 
+select* from member;
 
+commit;
+
+select * from member;
 
 
 
