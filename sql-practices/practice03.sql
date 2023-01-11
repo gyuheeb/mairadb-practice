@@ -15,12 +15,17 @@ select a.emp_no,concat(a.first_name,' ',a.last_name) as 이름, b.dept_name as '
  from  employees a ,departments b ,dept_emp c
  where c.dept_no = b.dept_no and c.emp_no = a.emp_no and c.to_date ='9999-01-01' order by 이름 asc;
  
+ 
+
 -- 문제4.
 -- 전체 사원의 사번, 이름, 연봉, 직책, 부서를 모두 이름 순서로 출력합니다.
-select a.emp_no,concat(a.first_name,' ',a.last_name) as 이름 , b.salary ,f.title, d.dept_name
+select a.emp_no as 사원, concat(a.first_name,' ',a.last_name) as 이름,
+ b.salary as '연봉',f.title as '직책', d.dept_name as '부서'
 from employees a, salaries b, dept_emp c, departments d, titles f
-where a.emp_no = b.emp_no and b.emp_no = c.emp_no and c.emp_no = f.emp_no and c.dept_no= d.dept_no
+where a.emp_no = b.emp_no and a.emp_no = c.emp_no and c.dept_no = d.dept_no and a.emp_no= f.emp_no
+and b.to_date='9999-01-01'
 order by 이름 asc;
+
 -- 문제5.
 -- ‘Technique Leader’의 직책으로 과거에 근무한 적이 있는 모든 사원의 사번과 이름을 출력하세요. (현재 ‘Technique Leader’의 직책(으로 근무하는 사원은 고려하지 않습니다.) 이름은 first_name과 last_name을 합쳐 출력 합니다.
 select a.emp_no as 사번,concat(a.first_name,' ',a.last_name) as 이름
@@ -43,15 +48,21 @@ order by c.salary desc;
 
 -- 문제8.
 -- 현재 평균 급여가 50000이 넘는 직책을 직책, 급여로 급여가 큰 순서대로 출력하시오
-select b.title as 직책, avg(a.salary) as '평균급여'
-from salaries a , titles b 
-where  a.emp_no = b.emp_no and a.to_date='9999-01-01' and b.to_date='9999-01-01' and '평균급여'>50000
-order by '평균급여' desc;
+select a.title, avg(b.salary) from titles a, salaries b 
+where a.emp_no = b.emp_no and a.to_date='9999-01-01' and b.to_date='9999-01-01'
+ group by a.title having avg(b.salary)>50000 order by avg(b.salary) desc;
 
-select * from titles a, salaries b where a.emp_no = b.emp_no ;
-select * from salaries;
 -- 문제9.
 -- 현재, 부서별 평균 연봉을 연봉이 큰 부서 순서대로 출력하세요.
+select d.dept_name as 부서이름, avg(a.salary)as 평균연봉
+from salaries a, employees b, dept_emp c, departments d
+where a.emp_no=b.emp_no and b.emp_no= c.emp_no and c.dept_no= d.dept_no 
+and a.to_date='9999-01-01'and c.to_date='9999-01-01' 
+group by d.dept_name order by avg(a.salary) desc;
 
 -- 문제10.
 -- 현재, 직책별 평균 연봉을 연봉이 큰 직책 순서대로 출력하세요.
+select b.title as 직책이름, avg(a.salary) as 평균연봉
+from salaries a join titles b on a.emp_no=b.emp_no
+where a.to_date='9999-01-01' and b.to_date='9999-01-01'
+group by b.title order by avg(a.salary) desc;
