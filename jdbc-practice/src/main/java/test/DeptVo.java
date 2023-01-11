@@ -3,12 +3,8 @@ package test;
 public class DeptVo {
 	private Long no;
 	private String name;
+		
 	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
-	}
 	public Long getNo() {
 		return no;
 	}
@@ -21,5 +17,9 @@ public class DeptVo {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+	@Override
+	public String toString() {
+		
+		return "DeptVo [no=" + no + ", name=" + name + "]";
+	}
 }
