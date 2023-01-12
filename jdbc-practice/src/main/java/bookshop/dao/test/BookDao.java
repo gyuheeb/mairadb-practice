@@ -1,4 +1,4 @@
-package emaillist.dao;
+package bookshop.dao.test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,13 +8,45 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import emaillist.vo.EmaillistVo;
 
-public class EmaillistDao {
+import bookshop.vo.BookVo;
 
-	public List<EmaillistVo> findAll() {
-		List<EmaillistVo> result = new ArrayList<>();
-	
+
+public class BookDao {
+	public void insert(BookVo vo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			
+			String sql = "insert into book(no, title, author_no) values(null, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setLong(2, vo.getAuthorNo());
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			// clean up
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public List<BookVo> findAll() {
+		List<BookVo> result = new ArrayList<>();
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -22,32 +54,40 @@ public class EmaillistDao {
 		try {
 			conn = getConnection();
 			
-			String sql ="select no, first_name, last_name, email from emaillist order by no desc";
+			String sql = 
+				"   select a.no, a.title, a.rent, b.name as authorName" +
+				"     from book a, author b" +
+				"    where a.author_no = b.no" +
+				" order by no desc";
 			pstmt = conn.prepareStatement(sql);
-
 			rs = pstmt.executeQuery();
+			
 			while(rs.next()) {
-				EmaillistVo vo = new EmaillistVo();
-				vo.setNo(rs.getLong(1));
-				vo.setFirstname(rs.getString(2));
-				vo.setLastname(rs.getString(3));
-				vo.setEmail(rs.getString(4));
+				Long no = rs.getLong(1);
+				String title = rs.getString(2);
+				String rent = rs.getString(3);
+				String authorName = rs.getString(4);
+				
+				BookVo vo = new BookVo();
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setRent(rent);
+				vo.setAuthorname(authorName);
 				
 				result.add(vo);
 			}
-			
+
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		} finally {
+			// clean up
 			try {
 				if(rs != null) {
 					rs.close();
 				}
-				
 				if(pstmt != null) {
 					pstmt.close();
 				}
-				
 				if(conn != null) {
 					conn.close();
 				}
@@ -59,22 +99,23 @@ public class EmaillistDao {
 		return result;
 	}
 
-	public void insert(EmaillistVo vo) {
+	public void update(BookVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
 		try {
 			conn = getConnection();
 			
-			String sql = "insert into emaillist values(null, ?, ?, ?)";
+			String sql = 
+				"update book" +
+				"   set rent=?" +
+				" where no=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, vo.getFirstname());
-			pstmt.setString(2, vo.getLastname());
-			pstmt.setString(3, vo.getEmail());
+			pstmt.setString(1, vo.getRent());
+			pstmt.setLong(2, vo.getNo());
 			
 			pstmt.executeUpdate();
-			
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		} finally {
@@ -82,7 +123,6 @@ public class EmaillistDao {
 				if(pstmt != null) {
 					pstmt.close();
 				}
-				
 				if(conn != null) {
 					conn.close();
 				}
@@ -92,47 +132,20 @@ public class EmaillistDao {
 		}
 	}
 
-	public void deleteByEmail(String email) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-			conn = getConnection();
-			
-			String sql = "delete from emaillist where email = ?";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, email);
-			
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
-		
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://192.168.10.118:3307/webdb?charset=utf8";
+
+			String url = "jdbc:mariadb://192.168.10.125:3307/webdb?charset=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
 		}
-		
+
 		return conn;
 	}
+
+	
+
 }

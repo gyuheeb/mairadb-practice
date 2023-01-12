@@ -1,4 +1,4 @@
-package emaillist.dao;
+package bookshop.dao.test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,12 +8,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import emaillist.vo.EmaillistVo;
+import bookshop.vo.AuthorVo;
 
-public class EmaillistDao {
 
-	public List<EmaillistVo> findAll() {
-		List<EmaillistVo> result = new ArrayList<>();
+public class AuthorDao {
+	public List<AuthorVo> findAll() {
+		List<AuthorVo> result = new ArrayList<AuthorVo>();
 	
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -22,16 +22,15 @@ public class EmaillistDao {
 		try {
 			conn = getConnection();
 			
-			String sql ="select no, first_name, last_name, email from emaillist order by no desc";
+			String sql ="select no, name from author";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				EmaillistVo vo = new EmaillistVo();
+				AuthorVo vo = new AuthorVo();
 				vo.setNo(rs.getLong(1));
-				vo.setFirstname(rs.getString(2));
-				vo.setLastname(rs.getString(3));
-				vo.setEmail(rs.getString(4));
+				vo.setName(rs.getString(2));
+			
 				
 				result.add(vo);
 			}
@@ -59,19 +58,18 @@ public class EmaillistDao {
 		return result;
 	}
 
-	public void insert(EmaillistVo vo) {
+	public void insert(AuthorVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
 		try {
 			conn = getConnection();
 			
-			String sql = "insert into emaillist values(null, ?, ?, ?)";
+			String sql = "insert into author values (null, ?)";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, vo.getFirstname());
-			pstmt.setString(2, vo.getLastname());
-			pstmt.setString(3, vo.getEmail());
+			pstmt.setString(1, vo.getName());
+			
 			
 			pstmt.executeUpdate();
 			
@@ -92,35 +90,7 @@ public class EmaillistDao {
 		}
 	}
 
-	public void deleteByEmail(String email) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-			conn = getConnection();
-			
-			String sql = "delete from emaillist where email = ?";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, email);
-			
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	
 	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
@@ -135,4 +105,6 @@ public class EmaillistDao {
 		
 		return conn;
 	}
+
+	
 }

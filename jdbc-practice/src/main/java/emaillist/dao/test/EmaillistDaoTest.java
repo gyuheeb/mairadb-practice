@@ -8,29 +8,30 @@ import emaillist.vo.EmaillistVo;
 public class EmaillistDaoTest {
 
 	public static void main(String[] args) {
-		testInsert();
-		testFindAll();
-	}
-
-	private static void testFindAll() {
-		List<EmaillistVo> list= new EmaillistDao().findAll();
-		for(EmaillistVo vo : list) {
-			System.out.println(vo);
-		}
-		
-	}
-
-	private static void testInsert() {
-		EmaillistVo vo =new EmaillistVo();
+		EmaillistVo vo = new EmaillistVo();
 		vo.setFirstname("둘");
 		vo.setLastname("리");
 		vo.setEmail("dooly@gmail.com");
 		
-		new EmaillistDao().insert(vo);
-		
+		testInsert(vo);
+		testDeleteByEmail("dooly@gmail.com");
+		testFindAll();
 	}
 
+	private static void testDeleteByEmail(String email) {
+		new EmaillistDao().deleteByEmail(email);
+	}
 
+	private static void testFindAll() {
+		List<EmaillistVo> list = new EmaillistDao().findAll();
+		for(EmaillistVo vo : list) {
+			System.out.println(vo);
+		}
+	}
 
+	private static void testInsert(EmaillistVo vo) {
+		new EmaillistDao().insert(vo);
+	}
 
 }
+
