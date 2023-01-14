@@ -6,11 +6,13 @@ import bookmall.dao.BookDao;
 import bookmall.dao.CartDao;
 import bookmall.dao.CategoryDao;
 import bookmall.dao.OrderDao;
+import bookmall.dao.Order_bookDao;
 import bookmall.dao.UserDao;
 import bookmall.vo.BookVo;
 import bookmall.vo.CartVo;
 import bookmall.vo.CategoryVo;
 import bookmall.vo.OrderVo;
+import bookmall.vo.Order_bookVo;
 import bookmall.vo.UserVo;
 
 public class BookMall {
@@ -26,9 +28,9 @@ public class BookMall {
 		System.out.println("******카트담기******");
 		CarttestFindAll(); 
 		System.out.println("******주문******");
-		OrdertestFindAll(); //주문번호, 주문자(이름/이메일), 결제금액, 배송지
+		OrdertestFindAll(); 
 		System.out.println("*****주문도서리스트*****");
-	//도서번호 제목 수량
+		Order_booktestFindAll();
 	}
 	private static void UsertestFindAll() {
 		List<UserVo> list = new UserDao().findAll();
@@ -57,6 +59,12 @@ public class BookMall {
 	private static void OrdertestFindAll() {
 		List<OrderVo> list = new OrderDao().findAll();
 		for(OrderVo vo : list) {
+			System.out.println(vo);
+		}
+	}
+	private static void Order_booktestFindAll() {
+		List<Order_bookVo> list = new Order_bookDao().findAll();
+		for(Order_bookVo vo : list) {
 			System.out.println(vo);
 		}
 	}

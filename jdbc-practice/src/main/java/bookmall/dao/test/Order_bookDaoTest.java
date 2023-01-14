@@ -9,7 +9,7 @@ import bookmall.vo.Order_bookVo;
 
 	public class Order_bookDaoTest {
 		public static void main(String[] args) {
-	//	testInsert();
+		testInsert();
 		testFindAll();
 		
 	}
@@ -24,15 +24,15 @@ import bookmall.vo.Order_bookVo;
 			vo = new Order_bookVo();
 			vo.setTitle("트랜드코리아");
 			vo.setCount(1L);
-			vo.setOrder_no(1L);
-			vo.setBook_no(7L);
+			vo.setOrders_no(1L);
+			vo.setBook_no(1L);
 			dao.insert(vo);
 			
 			vo = new Order_bookVo();
-			vo.setTitle("모던 자바스크립트");
+			vo.setTitle("모던 자바스크립트 Deep Dive");
 			vo.setCount(2L);
-			vo.setOrder_no(2L);
-			vo.setBook_no(8L);
+			vo.setOrders_no(2L);
+			vo.setBook_no(2L);
 			dao.insert(vo);
 			
 			

@@ -8,7 +8,7 @@ import bookmall.vo.OrderVo;
 
 public class OrderDaoTest {
 	public static void main(String[] args) {
-	//	testInsert();
+		testInsert();
 		testFindAll();
 }
 

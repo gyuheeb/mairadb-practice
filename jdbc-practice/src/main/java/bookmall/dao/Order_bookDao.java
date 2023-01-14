@@ -29,15 +29,16 @@ public class Order_bookDao {
 					while(rs.next()) {
 						Long no = rs.getLong(1);
 						String title  = rs.getString(2);
-						Long Count = rs.getLong(3);
-						Long order_no = rs.getLong(4);
+						Long count = rs.getLong(3);
+						Long orders_no = rs.getLong(4);
 						Long book_no = rs.getLong(5);
 						
 						
 						Order_bookVo vo = new Order_bookVo();
 						vo.setNo(no);
 						vo.setTitle(title);
-						vo.setOrder_no(order_no);
+						vo.setCount(count);
+						vo.setOrders_no(orders_no);
 						vo.setBook_no(book_no);
 						
 						
@@ -78,12 +79,12 @@ public class Order_bookDao {
 				try {
 					conn = getConnection();
 					
-					String sql = "insert into orders(no,title,count,order_no,book_no) values(null,?,?,?,?)";
+					String sql = "insert into order_book(no,title,count,orders_no,book_no) values(null,?,?,?,?)";
 					pstmt = conn.prepareStatement(sql);
 					
 					pstmt.setString(1, vo.getTitle());
 					pstmt.setLong(2, vo.getCount());
-					pstmt.setLong(3, vo.getOrder_no());
+					pstmt.setLong(3, vo.getOrders_no());
 					pstmt.setLong(4, vo.getBook_no());
 					
 					

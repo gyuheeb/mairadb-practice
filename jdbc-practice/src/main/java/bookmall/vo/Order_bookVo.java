@@ -4,7 +4,7 @@ public class Order_bookVo {
 	private Long no;
 	private String title;
 	private Long Count;
-	private Long order_no;
+	private Long orders_no;
 	private Long book_no;
 	public Long getNo() {
 		return no;
@@ -24,11 +24,11 @@ public class Order_bookVo {
 	public void setCount(Long count) {
 		Count = count;
 	}
-	public Long getOrder_no() {
-		return order_no;
+	public Long getOrders_no() {
+		return orders_no;
 	}
-	public void setOrder_no(Long order_no) {
-		this.order_no = order_no;
+	public void setOrders_no(Long orders_no) {
+		this.orders_no = orders_no;
 	}
 	public Long getBook_no() {
 		return book_no;
@@ -38,8 +38,7 @@ public class Order_bookVo {
 	}
 	@Override
 	public String toString() {
-		return "Order_bookVo [no=" + no + ", title=" + title + ", Count=" + Count + ", order_no=" + order_no
-				+ ", book_no=" + book_no + "]";
+		return "Order_bookVo [ book_no=" + book_no  + ", title=" + title + ", Count=" + Count +"]";
 	}
 	
 	

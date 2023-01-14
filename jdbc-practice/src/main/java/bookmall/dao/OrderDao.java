@@ -21,24 +21,23 @@ public class OrderDao {
 		ResultSet rs = null;
 		try {
 			conn = getConnection();
-			String sql = "select a.no,a.address,b.name,b.email,c.price from orders a,user b,book c where a.no=b.no and b.no=c.no";
+			String sql = "select a.no,b.name,b.email,d.price,a.address from orders a,user b,cart c, book d where a.user_no=b.no and b.cart_no=c.no and c.book_no=d.no";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				Long no = rs.getLong(1);
-				String address  = rs.getString(2);
-				
-				String name=rs.getString(3);
-				String email=rs.getString(4);
-				
-				Long user_no = rs.getLong(3);
-				
-				
+				String name=rs.getString(2);
+				String email=rs.getString(3);
+				Long price=rs.getLong(4);
+				String address  = rs.getString(5);
+
 				OrderVo vo = new OrderVo();
 				vo.setNo(no);
+				vo.setName(name);
+				vo.setEmail(email);
+				vo.setPrice(price);
 				vo.setAddress(address);
-				vo.setUser_no(user_no);
 				
 				
 				result.add(vo);
