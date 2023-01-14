@@ -3,7 +3,7 @@ package bookshop.main;
 import java.util.List;
 import java.util.Scanner;
 
-import bookshop.dao.test.BookDao;
+import bookshop.dao.BookDao;
 import bookshop.vo.BookVo;
 
 public class BookShop {

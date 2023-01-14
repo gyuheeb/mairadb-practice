@@ -1,15 +1,26 @@
 package bookshop.dao.test;
 
 
+import java.util.List;
 
+
+import bookshop.dao.BookDao;
 import bookshop.vo.BookVo;
 
 
 public class BookDaoTest {
 
 	public static void main(String[] args) {
-		testInsert();
-		//testFindAll();
+		//testInsert();
+		testFindAll();
+	}
+
+	private static void testFindAll() {
+		List<BookVo> list = new BookDao().findAll();
+		for(BookVo vo : list) {
+			System.out.println(vo);
+		}
+		
 	}
 
 	private static void testInsert() {
@@ -58,12 +69,12 @@ public class BookDaoTest {
 		
 		vo = new BookVo();
 		vo.setTitle("태백산맥");
-		vo.setAuthorNo(2L);
+		vo.setAuthorNo(6L);
 		dao.insert(vo);
 		
 		vo = new BookVo();
 		vo.setTitle("풀 하우스");
-		vo.setAuthorNo(6L);
+		vo.setAuthorNo(7L);
 		dao.insert(vo);
 		
 	}

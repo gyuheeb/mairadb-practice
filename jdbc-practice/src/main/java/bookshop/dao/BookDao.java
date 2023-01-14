@@ -1,4 +1,4 @@
-package bookshop.dao.test;
+package bookshop.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,39 +13,9 @@ import bookshop.vo.BookVo;
 
 
 public class BookDao {
-	public void insert(BookVo vo) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-			conn = getConnection();
-			
-			String sql = "insert into book(no, title, author_no) values(null, ?, ?)";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, vo.getTitle());
-			pstmt.setLong(2, vo.getAuthorNo());
-			
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			// clean up
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
+	//FINDALL
 	public List<BookVo> findAll() {
-		List<BookVo> result = new ArrayList<>();
+		List<BookVo> result = new ArrayList<BookVo>();
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -54,11 +24,8 @@ public class BookDao {
 		try {
 			conn = getConnection();
 			
-			String sql = 
-				"   select a.no, a.title, a.rent, b.name as authorName" +
-				"     from book a, author b" +
-				"    where a.author_no = b.no" +
-				" order by no desc";
+			String sql = "select a.no, a.title, a.rent, b.name as authorName from book a, author b where a.author_no = b.no";
+	
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -98,6 +65,38 @@ public class BookDao {
 		
 		return result;
 	}
+	//INSERT
+	public void insert(BookVo vo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			
+			String sql = "insert into book(no,title,author_no) values(null,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setLong(2, vo.getAuthorNo());
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			// clean up
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	//UPDATE
 
 	public void update(BookVo vo) {
 		Connection conn = null;
@@ -106,10 +105,7 @@ public class BookDao {
 		try {
 			conn = getConnection();
 			
-			String sql = 
-				"update book" +
-				"   set rent=?" +
-				" where no=?";
+			String sql = "update book set rent =? where no=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, vo.getRent());

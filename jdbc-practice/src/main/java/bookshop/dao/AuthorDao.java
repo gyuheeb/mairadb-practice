@@ -1,4 +1,4 @@
-package bookshop.dao.test;
+package bookshop.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,6 +12,8 @@ import bookshop.vo.AuthorVo;
 
 
 public class AuthorDao {
+	
+	//FINDALL
 	public List<AuthorVo> findAll() {
 		List<AuthorVo> result = new ArrayList<AuthorVo>();
 	
@@ -58,6 +60,7 @@ public class AuthorDao {
 		return result;
 	}
 
+	//INSERT
 	public void insert(AuthorVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
